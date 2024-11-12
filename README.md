@@ -1,5 +1,5 @@
 <h1>Catedra de Electrónica II</h1>
-<h1>TP N°3 Conexión WiFi</h1>
+<h1>TP N°6 Persistencia de variables</h1>
 <h2>Indice</h2>
 
 - [Introducción](#introducción)
@@ -10,27 +10,28 @@
 
 
 ## Introducción
-En este trabajo práctico se realizará un programa para que el ESP32 se conecte a una red WiFi y mantenga la conexión durante la ejeución del mismo. Además iniciará un access point que se utilizará en un portal embebido en el Trabajo Práctico Nº7.
+En este trabajo práctico se realizará un programa para que el ESP32 se conecte a una red WiFi y mantenga la conexión durante la ejeución del mismo. Además persistirá las variables de conexión ```ssid``` y ```ssid_pass``` y otras, utilizando la librería nativa del ESP32 ```Preferences```.
 
 La estructura ```config``` almacena los valores de configuración tanto de la red a conectar como los datos para el AP.
 
 ```cpp
 struct Config {
-  const char* device;
-  const char* ssid;
-  const char* ssid_pass;
-  const char* ap_ssid;
-  const char* ap_pass;
+  String ssid;
+  String ssid_pass;
+  uint8_t irr_hour;
+  uint8_t irr_minute;
+  uint8_t irr_time;
 };
 ```
 
-Estas variables se inicializarán con los valores que correspondan en ```setup.h```
+Estas variables se tendrán sus valores default en ```persist.h```
 ```cpp
-    //--Init wifi
-    config.ssid="XXXX";
-    config.ssid_pass="xxxxxxxx";
-    config.ap_ssid=config.device;
-    config.ap_pass="xxxxxxxx";
+//--Variables default values
+#define DEFAULT_IRR_HOUR    22
+#define DEFAULT_IRR_MINUTE  00
+#define DEFAULT_IRR_TIME    10
+#define DEFAULT_SSID        "ElectronicaII"
+#define DEFAULT_SSID_PASS   ""
 ```
 
 ## Circuito
@@ -38,73 +39,7 @@ En la figura se aprecia el circuito de este trabajo práctico, el led conectado 
 
 ![Circuito](./figures/schematic.png)
 
-Estos estados están definidos en la enumeración configurada en wifi.h
-```cpp
-enum FSM_WIFI_STATES {
-    DISCONNECTED,
-    CONNECTED,
-    RECONNECT,
-    WAITTORECONNECT,
-    WAITFORCONNECT
-};
-```
-Cada estado dispondrá de una codificación de flasheo del led (función _FSM_state_led() en wifi.cpp), los tiempos de encendido y apagado del les tonn y toff están dados en ms. La siguiente tabla muestra la codificaciónpara el estado de la conenxión.
 
-<html>
-    <table style="text-align: left;">
-        <thead>
-            <tr>
-                <th>Estado</th>
-                <th>tonn</th>
-                <th>toff</th>
-            </tr>
-        </thead>
-        <tr>
-            <td>
-            CONNECTED
-            </td>
-            <td>
-            10000
-            </td>
-            <td>
-            0
-            </td>
-        </tr>
-        <tr>
-            <td>
-            DISCONNECTED
-            </td>
-            <td>
-            0
-            </td>
-            <td>
-            10000
-            </td>
-        </tr>
-        <tr>
-            <td>
-            WAITTORECONNECT
-            </td>
-            <td>
-            30
-            </td>
-            <td>
-            30
-            </td>
-        </tr>
-        <tr>
-            <td>
-            WAITFORCONNECT
-            </td>
-            <td>
-            200
-            </td>
-            <td>
-            200
-            </td>
-        </tr>
-    </table>
-</html>
 
 
 ## Clonar el repositorio
