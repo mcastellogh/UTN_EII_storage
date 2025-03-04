@@ -25,9 +25,20 @@ Config config;
 void App_setup(void){
     Serial.begin(SERIAL_BAUDRATE);
 
-    //--PINS
-    pinMode(ONBOARD_LED_PIN,OUTPUT);
-    pinMode(WIFI_LED_PIN,OUTPUT);
+    //--Config pins
+
+    #ifdef NODEMCU
+    pinMode(LED2_PIN,OUTPUT);
+    pinMode(LED1_PIN,OUTPUT);
+    #endif
+    
+    #ifdef PCB_UTN
+    pinMode(LED1_PIN,OUTPUT);
+    pinMode(LED2_PIN,OUTPUT);
+    pinMode(LED3_PIN,OUTPUT);
+    pinMode(RELAY1_PIN,OUTPUT);
+    pinMode(RELAY2_PIN,OUTPUT);
+    #endif
 
     led_welcome();
 
@@ -43,5 +54,5 @@ void App_setup(void){
     Serial.println("Persist variables");
 
     //--Read command configuration
-    conf_read();
+    //conf_read();
 }

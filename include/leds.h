@@ -18,6 +18,6 @@ enum FSM_LED_STATES{
 void led_welcome(void);
 void led_blink(uint8_t ton, uint8_t toff, uint8_t led_pin);
 void led_flash(uint8_t ton, uint8_t count, uint8_t led_pin);
-void led_blink_FSM(uint8_t ton, uint8_t toff, uint8_t led_pin);
+void led_blink_FSM(uint32_t ton, uint32_t toff, uint8_t led_pin);
 
 #endif

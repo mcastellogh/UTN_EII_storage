@@ -106,7 +106,7 @@ bool wifi_loop(void){
     default:
       break;
   }
-  _FSM_state_led(_wifi_state, WIFI_LED_PIN);
+  _FSM_state_led(_wifi_state, LED1_PIN);
   
   if (_wifi_state==CONNECTED){
     return true;
@@ -126,7 +126,7 @@ bool _connect(void){
   _wifi_crono = millis();
   while (WiFi.status()!=WL_CONNECTED){
     Serial.print(F("."));
-    _FSM_state_led(WAITFORCONNECT, WIFI_LED_PIN );
+    _FSM_state_led(WAITFORCONNECT, LED1_PIN );
     delay(100);
     if (millis() - _wifi_crono >= WAITFORCONNECT_TIMEOUT){
       break;
@@ -135,7 +135,7 @@ bool _connect(void){
   Serial.println("");
   _wifi_state=_get_wifi_status();
   _wifi_crono = millis();
-  _FSM_state_led(_wifi_state, WIFI_LED_PIN );
+  _FSM_state_led(_wifi_state, LED1_PIN );
   if (_wifi_state==CONNECTED){
     Serial.print("Connected to: ");
     Serial.print(config.ssid);

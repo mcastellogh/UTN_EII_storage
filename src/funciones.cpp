@@ -10,10 +10,10 @@ void conf_read(void){
     uint8_t irr_minute;
     uint8_t irr_time;
     uint32_t st;
-    Serial.println(F("Put json config file..."));
+    //Serial.println(F("Put json config file..."));
     st=millis();
     
-    while(millis()-st<TIMEOUT_SERIAL_CONFIG){
+    //while(millis()-st<TIMEOUT_SERIAL_CONFIG){
         if (Serial.available()>0){
             String comm = Serial.readStringUntil('\n');
             Serial.println(comm);
@@ -21,7 +21,7 @@ void conf_read(void){
             if (error) {
                 Serial.print(F("Faill to parse Json file. "));
                 Serial.println(error.f_str());
-                break;
+                return;//break;
             }
             if(parse_comm.containsKey("device")){
                 ssid=parse_comm["device"]["ssid"];
@@ -42,9 +42,7 @@ void conf_read(void){
             Serial.println(F("Configuration changed!"));
             return;
         }
-
- 
         delay(100);
-    }
-    Serial.println(F("No json received. No changes."));
+    //}
+    //Serial.println(F("No json received. No changes."));
 }

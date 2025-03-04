@@ -43,4 +43,5 @@ bool wifi_state;
 //--Main application
 void App_loop(void){
     wifi_state=wifi_loop();
+    conf_read();
 }

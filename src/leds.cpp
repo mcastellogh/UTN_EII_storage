@@ -17,10 +17,18 @@ uint32_t FSM_led_crono = 0;
 //--Do welcome by flashing leds
 void led_welcome(void){
   for(int i=0;i<10;i++){
-      digitalWrite(ONBOARD_LED_PIN,HIGH);
-      delay(80);
-      digitalWrite(ONBOARD_LED_PIN,LOW);
-      delay(80);
+    digitalWrite(LED1_PIN,HIGH);
+    delay(50);
+    digitalWrite(LED1_PIN,LOW);
+    delay(50);
+    digitalWrite(LED2_PIN,HIGH);
+    delay(50);
+    digitalWrite(LED2_PIN,LOW);
+    delay(50);
+    digitalWrite(LED3_PIN,HIGH);
+    delay(50);
+    digitalWrite(LED3_PIN,LOW);
+    delay(50);
   }
   delay(500);
 }
@@ -47,7 +55,7 @@ void led_flash(uint8_t ton, uint8_t count, uint8_t led_pin){
 
 //--State machine for blink led
 //--Changes the blink parameters LED according to the service status
-void led_blink_FSM(uint8_t ton, uint8_t toff, uint8_t led_pin){
+void led_blink_FSM(uint32_t ton, uint32_t toff, uint8_t led_pin){
   switch (led_state){
     case LED_ON:   
       digitalWrite(led_pin, HIGH);
